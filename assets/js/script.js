@@ -9,7 +9,7 @@ if (!taskList) {
 // Create a function to generate a unique task id
 function generateTaskId() {
     if (!nextId) {
-        nextId = 1;
+        nextId = 0;
     }
     const id = nextId;
     nextId++;
@@ -51,6 +51,10 @@ function renderTaskList() {
     const inProgressList = $("#in-progress-cards");
     const doneList = $("#done-cards");
 
+    todoList.empty();
+    inProgressList.empty();
+    doneList.empty();
+
     for (task of taskList) {
         if (task.status === "to-do") {
           todoList.append(createTaskCard(task));
@@ -65,12 +69,12 @@ function renderTaskList() {
 }
 
 // Create a function to handle adding a new task
-function handleAddTask(event){
+function handleAddTask(event) {
     event.preventDefault();
 
     const taskTitle = $("#task-title").val();
     const taskDueDate = $("#task-due-date").val();
-    const taskDescription = $("task-description").val();
+    const taskDescription = $("#task-description").val();
 
     const newTask = {
         id: generateTaskId(),
@@ -83,16 +87,18 @@ function handleAddTask(event){
     taskList.push(newTask);
     localStorage.setItem("tasks", JSON.stringify(taskList));
     renderTaskList();
-    $("#formModal").close();
+
+    $("#task-title").val("");
+    $("#task-due-date").val("");
+    $("#task-description").val("");
 }
 
 // Create a function to handle deleting a task
-function handleDeleteTask(event){
-    event.preventDefault();
-
+function handleDeleteTask(event) {
     const taskId = $(this).attr("data-task-id");
+
     for (task of taskList) {
-        if (task.id === taskId) {
+        if (task.id == taskId) {
             taskList.splice(taskList.indexOf(task), 1);
         }
     }
@@ -116,10 +122,8 @@ function handleDrop(event, ui) {
 
 // When the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
-    renderTaskList();
-    
+    renderTaskList(); 
     $("#task-form").on("submit", handleAddTask);
-    $(".delete").on("click", handleDeleteTask);
 
     $(".lane").droppable({
         accept: ".draggable",
