@@ -25,21 +25,35 @@
       <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formModal">Add Task</button>
     </div>
     <!-- Todo: Create a modal with a form to add tasks -->
-    <dialog id="formModal">
-      <div id="form-header">
-        <h2>Add Task</h2>
-        <button id="close-button"></button>
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalLabel">Add Task</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="row" id="task-form">
+              <div class="mb-3 col-6">
+                <label for="task-title" class="form-label">Task Title</label>
+                <input class="form-control" id="task-title"/>
+              </div>
+              <div class="mb-3 col-6">
+                <label for="task-due-date" class="form-label">Task Due Date</label>
+                <input class="form-control" id="task-due-date"/>
+              </div>
+              <div class="mb-3 col-12">
+                <label for="task-description" class="form-label">Task Description</label>
+                <textarea class="form-control" id="task-description"></textarea>
+              </div>
+              <div class="col-12 d-flex justify-content-center my-3">
+                <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Add Task</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
-      <form id="task-form">
-        <label for="task-title">Task Title</label>
-        <input id="task-title"/>
-        <label for="task-due-date">Task Due Date</label>
-        <input id="task-due-date"/>
-        <label for="task-description">Task Description</label>
-        <textarea id="task-description"></textarea>
-        <button type="submit" class="btn btn-success">Add Task</button>
-      </form>
-    </dialog>
+    </div>
     <div class="row swim-lanes text-center justify-content-between">
       <div class="col-12 col-lg-4 d-flex">
         <div id="to-do" class="card border-light mb-3 lane flex-grow-1">

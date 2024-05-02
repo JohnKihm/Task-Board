@@ -2,6 +2,10 @@
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
+if (!taskList) {
+    taskList = [];
+}
+
 // Create a function to generate a unique task id
 function generateTaskId() {
     if (!nextId) {
@@ -15,7 +19,7 @@ function generateTaskId() {
 
 // Create a function to create a task card
 function createTaskCard(task) {
-    const taskCard = $("<div>").addClass("card project-card draggable my-3").attr("data-task-id", task.id);
+    const taskCard = $("<div>").addClass("card task-card draggable my-3").attr("data-task-id", task.id);
     const cardHeader = $("<div>").addClass("card-header h4").text(task.title);
     const cardBody = $("<div>").addClass("card-body");
     const cardDescription = $("<p>").addClass("card-text").text(task.description);
@@ -23,7 +27,7 @@ function createTaskCard(task) {
     const cardDeleteBtn = $("<button>").addClass("btn btn-danger delete").text("Delete").attr("data-task-id", task.id);
     cardDeleteBtn.on("click", handleDeleteTask);
 
-    if (project.dueDate && project.status !== "done") {
+    if (task.dueDate && task.status !== "done") {
         const now = dayjs();
         const taskDueDate = dayjs(task.dueDate, "DD/MM/YYYY");
     
@@ -79,6 +83,7 @@ function handleAddTask(event){
     taskList.push(newTask);
     localStorage.setItem("tasks", JSON.stringify(taskList));
     renderTaskList();
+    $("#formModal").close();
 }
 
 // Create a function to handle deleting a task
@@ -112,7 +117,7 @@ function handleDrop(event, ui) {
 // When the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
     renderTaskList();
-
+    
     $("#task-form").on("submit", handleAddTask);
     $(".delete").on("click", handleDeleteTask);
 
@@ -121,7 +126,7 @@ $(document).ready(function () {
         drop: handleDrop
     });
 
-    $("task-due-date").datepicker({
+    $("#task-due-date").datepicker({
         changeMonth: true,
         changeYear: true
     });
