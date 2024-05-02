@@ -23,15 +23,15 @@ function createTaskCard(task) {
     const cardDeleteBtn = $("<button>").addClass("btn btn-danger delete").text("Delete").attr("data-task-id", task.id);
     cardDeleteBtn.on("click", handleDeleteTask);
 
-    if (project.dueDate && project.status !== 'done') {
+    if (project.dueDate && project.status !== "done") {
         const now = dayjs();
-        const taskDueDate = dayjs(task.dueDate, 'DD/MM/YYYY');
+        const taskDueDate = dayjs(task.dueDate, "DD/MM/YYYY");
     
-        if (now.isSame(taskDueDate, 'day')) {
-          taskCard.addClass('bg-warning text-white');
+        if (now.isSame(taskDueDate, "day")) {
+          taskCard.addClass("bg-warning text-white");
         } else if (now.isAfter(taskDueDate)) {
-          taskCard.addClass('bg-danger text-white');
-          cardDeleteBtn.addClass('border-light');
+          taskCard.addClass("bg-danger text-white");
+          cardDeleteBtn.addClass("border-light");
         }
       }
 
@@ -41,9 +41,23 @@ function createTaskCard(task) {
       return taskCard;
 }
 
-// Todo: create a function to render the task list and make cards draggable
+// Create a function to render the task list and make cards draggable
 function renderTaskList() {
+    const todoList = $("#todo-cards");
+    const inProgressList = $("#in-progress-cards");
+    const doneList = $("#done-cards");
 
+    for (task of taskList) {
+        if (task.status === "to-do") {
+          todoList.append(createTaskCard(task));
+        } else if (task.status === "in-progress") {
+          inProgressList.append(createTaskCard(task));
+        } else if (task.status === "done") {
+          doneList.append(createTaskCard(task));
+        }
+    }
+
+    $(".draggable").draggable();
 }
 
 // Todo: create a function to handle adding a new task
