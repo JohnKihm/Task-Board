@@ -16,7 +16,7 @@ function generateTaskId() {
 // Create a function to create a task card
 function createTaskCard(task) {
     const taskCard = $("<div>").addClass("card project-card draggable my-3").attr("data-task-id", task.id);
-    const cardHeader = $("<div>").addClass("card-header h4").text(task.name);
+    const cardHeader = $("<div>").addClass("card-header h4").text(task.title);
     const cardBody = $("<div>").addClass("card-body");
     const cardDescription = $("<p>").addClass("card-text").text(task.description);
     const cardDueDate = $("<p>").addClass("card-text").text(task.dueDate);
@@ -62,7 +62,23 @@ function renderTaskList() {
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
+    event.preventDefault();
 
+    const taskTitle = $("#task-title").val();
+    const taskDueDate = $("#task-due-date").val();
+    const taskDescription = $("task-description").val();
+
+    const newTask = {
+        id: generateTaskId(),
+        title: taskTitle,
+        dueDate: taskDueDate,
+        description: taskDescription,
+        status: "to-do"
+    }
+
+    taskList.push(newTask);
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+    renderTaskList();
 }
 
 // Todo: create a function to handle deleting a task
