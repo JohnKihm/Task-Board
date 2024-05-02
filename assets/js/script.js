@@ -60,7 +60,7 @@ function renderTaskList() {
     $(".draggable").draggable();
 }
 
-// Todo: create a function to handle adding a new task
+// Create a function to handle adding a new task
 function handleAddTask(event){
     event.preventDefault();
 
@@ -81,9 +81,19 @@ function handleAddTask(event){
     renderTaskList();
 }
 
-// Todo: create a function to handle deleting a task
+// Create a function to handle deleting a task
 function handleDeleteTask(event){
+    event.preventDefault();
 
+    const taskId = $(this).attr("data-task-id");
+    for (task of taskList) {
+        if (task.id === taskId) {
+            taskList.splice(taskList.indexOf(task), 1);
+        }
+    }
+
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+    renderTaskList();
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
