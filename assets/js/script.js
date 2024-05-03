@@ -109,13 +109,15 @@ function handleDeleteTask(event) {
 
 // Create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
-    const taskId = ui.draggable[0].attr("data-task-id");
+    const taskId = ui.draggable[0].dataset.taskId;
     const newStatus = event.target.id;
+
     for (task of taskList) {
-        if (task.id === taskId) {
+        if (task.id == taskId) {
             task.status = newStatus;
         }
     }
+
     localStorage.setItem("tasks", JSON.stringify(taskList));
     renderTaskList();
 }
